@@ -35,7 +35,7 @@ function titleFor(){
 function card(n){
   const st=stateOf(n), c=COPY[st](n);
   const src=ICON3D[n.key]||ICON3D.sodium;
-  const node=el(`<div class="card ${st==='onTrack'?'resolved':''}" data-id="${n.key}">
+  const node=el(`<div class="card s-${st}" data-id="${n.key}">
     <div class="cin">
       <div class="crow">
         <div class="cic"><img src="${src}" width="24" height="24" alt=""></div>

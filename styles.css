@@ -64,8 +64,16 @@
   .card{flex:0 0 321px;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;
     gap:20px;border-radius:32px;border:.5px solid var(--card-border);background:var(--card-bg);
     padding:18px 18px 16px 16px;transition:border-color .4s var(--e),background .4s var(--e)}
-  .card.resolved{border-color:#7fc79b;
-    background:linear-gradient(180deg,rgba(47,158,87,.05) 0%,rgba(120,200,150,.05) 50%,rgba(49,193,225,.05) 100%)}
+  /* severity tint — preventive keeps the Coach gradient, nothing is wrong yet */
+  .card.s-low,.card.s-high{border-color:#e0b877;
+    background:linear-gradient(180deg,rgba(187,107,2,.06) 0%,rgba(187,107,2,.02) 100%)}
+  .card.s-tooLow,.card.s-tooHigh{border-color:#dd9a93;
+    background:linear-gradient(180deg,rgba(192,57,43,.07) 0%,rgba(192,57,43,.02) 100%)}
+  .card.s-onTrack,.card.resolved{border-color:#7fc79b;
+    background:linear-gradient(180deg,rgba(47,158,87,.06) 0%,rgba(47,158,87,.02) 100%)}
+  .card.s-low .cta,.card.s-high .cta{background:linear-gradient(93.8deg,rgba(187,107,2,.24),rgba(187,107,2,.12))}
+  .card.s-tooLow .cta,.card.s-tooHigh .cta{background:linear-gradient(93.8deg,rgba(192,57,43,.24),rgba(192,57,43,.12))}
+  .card.s-onTrack .cta,.card.resolved .cta{background:linear-gradient(93.8deg,rgba(47,158,87,.24),rgba(49,193,225,.16))}
   .cin{flex:1;display:flex;flex-direction:column;gap:12px;width:100%}
   .crow{display:flex;align-items:center;gap:6px;width:100%;overflow:hidden}
   .cic{width:24px;height:24px;flex:0 0 24px;border-radius:7.5px;overflow:hidden;
@@ -130,6 +138,12 @@
     background:conic-gradient(from 200deg,#8fd3e8,#c9a8e0,#fbc2d4,#8fd3e8);filter:blur(1.5px)}
   .nm{font-size:13px;font-weight:600}
   .ctxcard{border-radius:24px;border:.5px solid var(--card-border);background:var(--card-bg);padding:14px 16px}
+  .ctxcard.s-low,.ctxcard.s-high{border-color:#e0b877;
+    background:linear-gradient(180deg,rgba(187,107,2,.06),rgba(187,107,2,.02))}
+  .ctxcard.s-tooLow,.ctxcard.s-tooHigh{border-color:#dd9a93;
+    background:linear-gradient(180deg,rgba(192,57,43,.07),rgba(192,57,43,.02))}
+  .ctxcard.s-onTrack{border-color:#7fc79b;
+    background:linear-gradient(180deg,rgba(47,158,87,.06),rgba(47,158,87,.02))}
   .food{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.75);border-radius:16px;
     padding:11px 12px;margin-top:8px;border:1px solid rgba(255,255,255,.9)}
   .fn{font-size:14px;font-weight:600;line-height:18px;letter-spacing:-.15px}

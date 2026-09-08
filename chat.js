@@ -29,7 +29,7 @@ function openChat(k){
     body.className='body chat';
     body.innerHTML='';
     // the same card, now the header of the conversation
-    body.appendChild(el(`<div class="ctxcard"><div class="cin">
+    body.appendChild(el(`<div class="ctxcard s-${st}"><div class="cin">
       <div class="crow">
         <div class="cic"><img src="${ICON3D[n.key]||ICON3D.sodium}" width="24" height="24" alt=""></div>
         <div class="ct" style="font-size:15px">${c.title}</div>
