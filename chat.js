@@ -52,7 +52,7 @@ function openChat(k){
             <div class="fv">${amt} of ${n.label.toLowerCase()}</div></div></div>`)));
         body.appendChild(b);
         body.appendChild(bubbleCoach('For the rest of today, cooking from scratch keeps it from climbing. Nothing you eat now lowers what is already logged.'));
-        chatChips([['Plan the rest of my day',()=>{}],['Why does it matter?',()=>{}]]);
+        chatChips([]);   // no suggestions inside a conversation
       }
       else if(st==='tooLow'||st==='low'){
         (ADD_FOODS[n.key]||[]).forEach(([name,portion,amount])=>{
@@ -68,16 +68,16 @@ function openChat(k){
               ? `That closes it. ${n.label} is on track for today.`
               : `Logged. ${n.label} is at ${fmt(n.v,n.unit)} now, ${fmt(n.limit-n.v,n.unit)} to go.`));
             body.scrollTop=body.scrollHeight;
-            chatChips([['Something else',()=>{}]]);
+            chatChips([]);
           };
           b.appendChild(row);
         });
         body.appendChild(b);
-        chatChips([['Something else',()=>{}],['Plan the rest of my day',()=>{}]]);
+        chatChips([]);
       }
       else{
         body.appendChild(b);
-        chatChips([['Plan the rest of my day',()=>{}]]);
+        chatChips([]);
       }
       body.scrollTop=body.scrollHeight;
     },900);
