@@ -644,7 +644,7 @@ function openChat(k){
             <div class="fv">${amt} of ${n.label.toLowerCase()}</div></div></div>`)));
         body.appendChild(b);
         body.appendChild(bubbleCoach('For the rest of today, cooking from scratch keeps it from climbing. Nothing you eat now lowers what is already logged.'));
-        chatChips([['Plan the rest of my day',()=>{}],['Why does it matter?',()=>{}]]);
+        chatChips([]);   // no suggestions inside a conversation
       }
       else if(st==='tooLow'||st==='low'){
         (ADD_FOODS[n.key]||[]).forEach(([name,portion,amount])=>{
@@ -660,16 +660,16 @@ function openChat(k){
               ? `That closes it. ${n.label} is on track for today.`
               : `Logged. ${n.label} is at ${fmt(n.v,n.unit)} now, ${fmt(n.limit-n.v,n.unit)} to go.`));
             body.scrollTop=body.scrollHeight;
-            chatChips([['Something else',()=>{}]]);
+            chatChips([]);
           };
           b.appendChild(row);
         });
         body.appendChild(b);
-        chatChips([['Something else',()=>{}],['Plan the rest of my day',()=>{}]]);
+        chatChips([]);
       }
       else{
         body.appendChild(b);
-        chatChips([['Plan the rest of my day',()=>{}]]);
+        chatChips([]);
       }
       body.scrollTop=body.scrollHeight;
     },900);
@@ -681,6 +681,12 @@ const STATE_COLOR={high:['#fdf3e3','#BB6B02'],tooHigh:['#fbeceb','#c0392b'],
   tooLow:['#fbeceb','#c0392b'],low:['#fdf3e3','#BB6B02'],onTrack:['#eaf6ee','#2f9e57'],
   preventive:['#fdf3e3','#BB6B02']};
 
+let liveT=null;
+function liveEvaluate(){
+  clearTimeout(liveT);
+  liveT=setTimeout(()=>{ evaluate(); paintPanel(); },250);
+}
+
 function buildSliders(){
   const box=document.getElementById('sliders'); box.innerHTML='';
   N.forEach(n=>{
@@ -689,15 +695,19 @@ function buildSliders(){
         <span class="sl-state" data-state="${n.key}"></span>
         <span class="sl-val" data-val="${n.key}"></span></div>
       <input type="range" min="0" max="${n.max}" step="${n.step}" value="${n.v}" data-k="${n.key}"></div>`);
-    w.querySelector('input').addEventListener('input',e=>{
+    const inp=w.querySelector('input');
+    inp.addEventListener('input',e=>{
       n.v=parseFloat(e.target.value);
       if(tab==='plan') paintPanel(); else render();
     });
+    // evaluate as soon as the slider settles, without leaving the tab
+    inp.addEventListener('change',()=>{ if(tab==='plan') liveEvaluate(); });
     box.appendChild(w);
   });
   const c=document.getElementById('cal');
   c.value=cal;
   c.addEventListener('input',e=>{cal=parseInt(e.target.value); if(tab==='plan') paintPanel(); else render();});
+  c.addEventListener('change',()=>{ if(tab==='plan') liveEvaluate(); });
 }
 
 function paintPanel(){

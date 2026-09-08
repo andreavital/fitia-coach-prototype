@@ -3,6 +3,12 @@ const STATE_COLOR={high:['#fdf3e3','#BB6B02'],tooHigh:['#fbeceb','#c0392b'],
   tooLow:['#fbeceb','#c0392b'],low:['#fdf3e3','#BB6B02'],onTrack:['#eaf6ee','#2f9e57'],
   preventive:['#fdf3e3','#BB6B02']};
 
+let liveT=null;
+function liveEvaluate(){
+  clearTimeout(liveT);
+  liveT=setTimeout(()=>{ evaluate(); paintPanel(); },250);
+}
+
 function buildSliders(){
   const box=document.getElementById('sliders'); box.innerHTML='';
   N.forEach(n=>{
@@ -11,15 +17,19 @@ function buildSliders(){
         <span class="sl-state" data-state="${n.key}"></span>
         <span class="sl-val" data-val="${n.key}"></span></div>
       <input type="range" min="0" max="${n.max}" step="${n.step}" value="${n.v}" data-k="${n.key}"></div>`);
-    w.querySelector('input').addEventListener('input',e=>{
+    const inp=w.querySelector('input');
+    inp.addEventListener('input',e=>{
       n.v=parseFloat(e.target.value);
       if(tab==='plan') paintPanel(); else render();
     });
+    // evaluate as soon as the slider settles, without leaving the tab
+    inp.addEventListener('change',()=>{ if(tab==='plan') liveEvaluate(); });
     box.appendChild(w);
   });
   const c=document.getElementById('cal');
   c.value=cal;
   c.addEventListener('input',e=>{cal=parseInt(e.target.value); if(tab==='plan') paintPanel(); else render();});
+  c.addEventListener('change',()=>{ if(tab==='plan') liveEvaluate(); });
 }
 
 function paintPanel(){
