@@ -92,7 +92,7 @@ document.getElementById('delBtn').onclick=()=>{
   render();
 };
 document.getElementById('resetBtn').onclick=()=>{
-  dayState={triggeredToday:{},sentTodayByNutrient:{},totalSentToday:0};
+  dayState={triggeredToday:{},seenToday:{},sentTodayByNutrient:{},totalSentToday:0};
   cal=0; unseen=false; N.forEach(n=>n.v=0);
   document.getElementById('cal').value=0;
   document.querySelectorAll('#sliders input[type=range]').forEach(i=>i.value=0);

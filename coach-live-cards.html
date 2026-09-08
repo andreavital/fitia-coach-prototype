@@ -335,7 +335,9 @@ const N=[
 const byKey=Object.fromEntries(N.map(n=>[n.key,n]));
 
 /* the ONLY thing persisted: which nutrients have triggered today */
-let dayState={triggeredToday:{},sentTodayByNutrient:{},totalSentToday:0};
+let dayState={triggeredToday:{},seenToday:{},sentTodayByNutrient:{},totalSentToday:0};
+/* seenToday: the user actually opened Coach while this alert was still open.
+   Without it, a resolved card would tell the ending of a story they never read. */
 let tab='coach', unseen=false;
 let cal=1100, view='home', chatKey=null;
 
@@ -452,8 +454,13 @@ const PILL_ICON={
  day:'<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2.5 14h12M5 14V8M8.5 14V3.5M12 14V9.5"/></svg>'};
 const nothingLogged=()=>cal===0 && N.every(n=>n.v===0);
 const pinned=()=>N.filter(n=>dayState.triggeredToday[n.key])
+  // resolved before the user ever saw it open: there is no story to tell
+  .filter(n=>stateOf(n)!=='onTrack' || dayState.seenToday[n.key])
   .sort((a,b)=>{const o={tooHigh:0,tooLow:0,high:1,low:1,preventive:2,onTrack:3};
     return (o[stateOf(a)]-o[stateOf(b)])||(a.rank-b.rank);});
+
+/* opening Coach counts as seeing whatever is currently open */
+function markSeen(list){ list.forEach(n=>{ if(stateOf(n)!=='onTrack') dayState.seenToday[n.key]=true; }); }
 
 function titleFor(){
   const p=pinned(), openN=p.filter(n=>stateOf(n)!=='onTrack').length, done=p.length-openN;
@@ -543,6 +550,7 @@ function render(){
 
   {
       document.querySelector('.phone').classList.remove('plain');
+    markSeen(p);
     const rail=el(`<div class="rail" role="group" aria-label="Today's alerts"></div>`);
     p.forEach(n=>rail.appendChild(card(n)));
     content.appendChild(rail);
@@ -770,7 +778,7 @@ document.getElementById('delBtn').onclick=()=>{
   render();
 };
 document.getElementById('resetBtn').onclick=()=>{
-  dayState={triggeredToday:{},sentTodayByNutrient:{},totalSentToday:0};
+  dayState={triggeredToday:{},seenToday:{},sentTodayByNutrient:{},totalSentToday:0};
   cal=0; unseen=false; N.forEach(n=>n.v=0);
   document.getElementById('cal').value=0;
   document.querySelectorAll('#sliders input[type=range]').forEach(i=>i.value=0);

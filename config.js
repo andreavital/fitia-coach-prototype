@@ -14,7 +14,9 @@ const N=[
 const byKey=Object.fromEntries(N.map(n=>[n.key,n]));
 
 /* the ONLY thing persisted: which nutrients have triggered today */
-let dayState={triggeredToday:{},sentTodayByNutrient:{},totalSentToday:0};
+let dayState={triggeredToday:{},seenToday:{},sentTodayByNutrient:{},totalSentToday:0};
+/* seenToday: the user actually opened Coach while this alert was still open.
+   Without it, a resolved card would tell the ending of a story they never read. */
 let tab='coach', unseen=false;
 let cal=1100, view='home', chatKey=null;
 
