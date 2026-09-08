@@ -224,6 +224,17 @@
   .kpi .kv{font-size:14px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
   @media(prefers-reduced-motion:reduce){*{transition-duration:1ms!important;animation-duration:1ms!important}}
 
+  /* ---------- real phone: full screen, no simulated chrome ---------- */
+  @media (max-width:520px){
+    body{padding:0;margin:0;background:#fff;display:block}
+    .colA{width:100%;margin:0}
+    .phone{width:100%;height:100dvh;border-radius:0;box-shadow:none;border:0}
+    .status{display:none}                       /* the OS already draws it */
+    .hdr{padding-top:calc(env(safe-area-inset-top) + 6px);flex-basis:auto;min-height:50px}
+    .tabs{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+    .toast{bottom:calc(230px + env(safe-area-inset-bottom))}
+  }
+
 </style>
 </head>
 <body>
@@ -231,7 +242,6 @@
 
 
 <div class="colA" style="margin:0 auto">
-<div class="lead">The card is not the notification. It renders from current totals every time you open Coach.</div>
 <div class="phone">
   <div class="aura"></div>
 
