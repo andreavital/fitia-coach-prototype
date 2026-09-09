@@ -65,9 +65,10 @@ function card(n){
       </div>
       <div class="cbody"><div class="cb">${c.body}</div></div>
     </div>
-    <div class="ctarow"><button class="cta">${c.cta}</button></div>
+    ${c.cta?`<div class="ctarow"><button class="cta">${c.cta}</button></div>`:''}
   </div>`);
-  node.querySelector('.cta').onclick=()=>openChat(n.key);
+  const btn=node.querySelector('.cta');
+  if(btn) btn.onclick=()=>openChat(n.key);
   return node;
 }
 

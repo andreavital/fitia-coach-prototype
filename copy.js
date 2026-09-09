@@ -18,7 +18,7 @@ const COPY={
    body:n.type==='A'
      ? `You are back under your daily limit, now at <b>${fmt(n.v,n.unit)}</b> of ${fmt(n.limit,n.unit)}.`
      : `You reached your target for today, now at <b>${fmt(n.v,n.unit)}</b> of ${fmt(n.limit,n.unit)}.`,
-   cta:'See what changed'})
+   cta:null})   // nothing left to do, so no button
 };
 
 const TOP_ITEMS={
