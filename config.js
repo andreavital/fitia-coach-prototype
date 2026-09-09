@@ -18,6 +18,7 @@ let dayState={triggeredToday:{},seenToday:{},sentTodayByNutrient:{},totalSentTod
 /* seenToday: the user actually opened Coach while this alert was still open.
    Without it, a resolved card would tell the ending of a story they never read. */
 let tab='coach', unseen=false;
+let lastMeal='lunch';   // in production: the most recent meal the user logged
 let cal=1100, view='home', chatKey=null;
 
 /* ---------------- derivation ---------------- */
