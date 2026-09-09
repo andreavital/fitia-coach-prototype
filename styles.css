@@ -73,6 +73,11 @@
   /* the CTA stays the Coach gradient in every state: a red or amber button reads
      as destructive or as a warning, and this action is always constructive.
      On track is the exception: green here means achieved, not dangerous. */
+  /* resolved cards keep the same height: the action slot becomes a closing mark */
+  .cdone{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+    padding:10px 20px;border-radius:50px;background:rgba(47,158,87,.1);
+    font-size:16px;font-weight:600;line-height:20px;letter-spacing:-.31px;color:#2f9e57}
+  .cdone svg{flex:0 0 auto}
   .card.s-onTrack .cta,.card.resolved .cta{
     background:linear-gradient(93.8deg,rgba(47,158,87,.24) 0%,rgba(120,200,150,.22) 55%,rgba(49,193,225,.18) 100%)}
   .cin{flex:1;display:flex;flex-direction:column;gap:12px;width:100%}
