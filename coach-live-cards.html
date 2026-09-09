@@ -505,8 +505,7 @@ function titleFor(){
     sub:'Everything I flagged today is back inside your targets.'};
   // only over-limit left: nothing to act on, so name what happened instead
   if(open.every(isOver)) return {lbl:"Today's alerts",
-    h1:`${n} thing${n>1?'s':''} went over today`,
-    sub:'Nothing to change now, but worth seeing what caused it.'};
+    h1:`${n} thing${n>1?'s':''} went over`,sub:''};
   return {lbl:"Today's alerts",h1:`${n} thing${n>1?'s':''} to check`,sub:''};
 }
 
