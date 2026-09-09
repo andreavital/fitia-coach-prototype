@@ -4,12 +4,12 @@ const CAPS={maxPerNutrientPerDay:1,maxAlertsPerDay:5};
 const CAL_TARGET=1800, CAL_RANGE_TOP=2000;
 
 const N=[
- {key:'transFat',  rank:1,label:'Trans Fat',  unit:'g', type:'A',limit:2,   max:5,   step:.1, v:0.4},
- {key:'sodium',    rank:2,label:'Sodium',     unit:'mg',type:'A',limit:2300,max:4000,step:25, v:2000},
- {key:'addedSugar',rank:3,label:'Added Sugar',unit:'g', type:'A',limit:50,  max:100, step:1,  v:18},
- {key:'satFat',    rank:4,label:'Sat Fat',    unit:'g', type:'A',limit:20,  max:45,  step:.5, v:7},
- {key:'protein',   rank:5,label:'Protein',    unit:'g', type:'B',limit:120, max:180, step:1,  v:44},
- {key:'fiber',     rank:6,label:'Fiber',      unit:'g', type:'B',limit:30,  max:60,  step:1,  v:8}
+ {key:'transFat',pair:'something cooked at home instead of packaged',  rank:1,label:'Trans Fat',  unit:'g', type:'A',limit:2,   max:5,   step:.1, v:0.4},
+ {key:'sodium',pair:'something cooked from scratch or a side without sauce',    rank:2,label:'Sodium',     unit:'mg',type:'A',limit:2300,max:4000,step:25, v:2000},
+ {key:'addedSugar',pair:'fruit or something savoury',rank:3,label:'Added Sugar',unit:'g', type:'A',limit:50,  max:100, step:1,  v:18},
+ {key:'satFat',pair:'lean protein or something grilled',    rank:4,label:'Sat Fat',    unit:'g', type:'A',limit:20,  max:45,  step:.5, v:7},
+ {key:'protein',pair:'eggs or a cup of Greek yogurt',   rank:5,label:'Protein',    unit:'g', type:'B',limit:120, max:180, step:1,  v:44},
+ {key:'fiber',pair:'a bowl of berries or a plate of vegetables',     rank:6,label:'Fiber',      unit:'g', type:'B',limit:30,  max:60,  step:1,  v:8}
 ];
 const byKey=Object.fromEntries(N.map(n=>[n.key,n]));
 

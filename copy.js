@@ -1,28 +1,23 @@
 const COPY={
  preventive:n=>({tag:null,title:`Watch your ${n.label.toLowerCase()}`,
-   body:`You have <b>${fmt(n.limit-n.v,n.unit)}</b> left before your limit today.`,
-   fix:'Keep your next meal simple and you stay under it.',
+   body:`You have <b>${fmt(n.limit-n.v,n.unit)}</b> of room left before your limit. Keeping your next meal simple should be enough — want ideas?`,
    cta:'How to stay under it'}),
  high:n=>({tag:STATE_LABEL.high,title:n.label,
-   body:`You are <b>${fmt(n.v-n.limit,n.unit)}</b> over your limit today.`,
-   fix:'It cannot be undone, but it can stop here.',
+   body:`You went <b>${fmt(n.v-n.limit,n.unit)}</b> over your limit today. It cannot be undone, but I can show you what pushed it there.`,
    cta:'See what caused it'}),
  tooHigh:n=>({tag:STATE_LABEL.tooHigh,title:n.label,
-   body:`You are <b>${fmt(n.v-n.limit,n.unit)}</b> over your limit today.`,
-   fix:'It cannot be undone, but it can stop here.',
+   body:`You went <b>${fmt(n.v-n.limit,n.unit)}</b> over your limit today. It cannot be undone, but I can show you what pushed it there.`,
    cta:'See what caused it'}),
  tooLow:n=>({tag:STATE_LABEL.tooLow,title:n.label,
-   body:`You are <b>${fmt(n.limit-n.v,n.unit)}</b> short of your target for today.`,
-   fix:n.key==='protein'?'Eggs, yogurt, legumes or fish all close this fast.'
-                        :'Beans, oats and whole fruit move it the most.',
+   body:`You are <b>${fmt(n.limit-n.v,n.unit)}</b> short of your target for today. Would ${n.pair} work to close it?`,
    cta:'See how to fix it'}),
  low:n=>({tag:STATE_LABEL.low,title:n.label,
-   body:`<b>${fmt(n.limit-n.v,n.unit)}</b> to go before you reach your target.`,
-   fix:'One more serving today and it is closed.',
+   body:`You are <b>${fmt(n.limit-n.v,n.unit)}</b> away from your target. Would ${n.pair} do it?`,
    cta:'See how to fix it'}),
  onTrack:n=>({tag:STATE_LABEL.onTrack,title:n.label,
-   body:n.type==='A'?'You are under your daily limit again.':'You reached your target for today.',
-   fix:`Now at ${fmt(n.v,n.unit)} of ${fmt(n.limit,n.unit)}.`,
+   body:n.type==='A'
+     ? `You are back under your daily limit, now at <b>${fmt(n.v,n.unit)}</b> of ${fmt(n.limit,n.unit)}.`
+     : `You reached your target for today, now at <b>${fmt(n.v,n.unit)}</b> of ${fmt(n.limit,n.unit)}.`,
    cta:'See what changed'})
 };
 
