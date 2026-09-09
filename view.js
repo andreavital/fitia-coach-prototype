@@ -7,6 +7,15 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 const USER='Ana';
 let firstEver=false;
 const greeting=()=>{const h=16; return h<12?'Good morning':h<19?'Good afternoon':'Good evening';};
+/* what each action would do — shown as an in-app notification on tap */
+const PILL_DESC={
+  eat:  "I'd build your meals around the calories and macros you have left, and the food you actually like.",
+  rest: "I'd plan only what's left of today, working around everything you already logged.",
+  recipe:"Tell me what you have in the fridge and I'd build a recipe that fits your day.",
+  scan: 'Opens the camera to scan a barcode or read a nutrition label.',
+  day:  "I'd walk you through your day so far: what is on track, what is not, and what to do next."
+};
+
 const PILL_ICON={
  scan:'<svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="1.5" y="4" width="14" height="10.5" rx="3"/><circle cx="8.5" cy="9.2" r="2.4"/><path d="M5.5 4l1.1-1.8h3.8L11.5 4"/></svg>',
  recipe:'<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.0203 5.19266C13.5292 4.84314 14.1413 4.63926 14.8 4.63926C16.5673 4.63926 18 6.1071 18 7.91778C18 9.6994 16.5531 11.19 14.8 11.19V12.75C14.8 14.2821 14.8 15.0481 14.3314 15.524C13.8627 16 13.1085 16 11.6 16H8.4C6.89151 16 6.13726 16 5.66863 15.524C5.2 15.0481 5.2 14.2821 5.2 12.75V11.3931C3.33147 11.3931 2 9.97962 2 7.91778C2 6.1071 3.43269 4.63926 5.2 4.63926C5.85865 4.63926 6.47083 4.84314 6.97969 5.19266C7.41705 3.91564 8.60416 3 10 3C11.3958 3 12.5829 3.91564 13.0203 5.19266ZM13.0203 5.19266C13.1367 5.5325 13.2 5.89794 13.2 6.27852"/></svg>',
@@ -102,11 +111,15 @@ function render(){
         <div class="ttlgrp"><div class="h1">${h}</div>
         ${sb?`<div class="sub">${sb}</div>`:''}</div></div>
       <div class="pills">${acts.map(([k,t])=>
-        `<button class="pill">${PILL_ICON[k]}${t}</button>`).join('')}</div>
+        `<button class="pill" data-act="${k}">${PILL_ICON[k]}${t}</button>`).join('')}</div>
       <div class="footnote">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.6v3.6l2.2 1.3"/></svg>
         <p>${fn}</p>
       </div>`;
+    body.querySelectorAll('.pill').forEach(b=>{
+      const k=b.dataset.act;
+      b.onclick=()=>toast(PILL_DESC[ k==='eat' && !blank ? 'rest' : k ]);
+    });
     sugg.innerHTML='';
     return;
   }
