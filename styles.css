@@ -63,17 +63,20 @@
 
   .card{flex:0 0 321px;scroll-snap-align:center;display:flex;flex-direction:column;align-items:center;
     gap:20px;border-radius:32px;border:.5px solid var(--card-border);background:var(--card-bg);
-    padding:18px 18px 16px 16px;transition:border-color .4s var(--e),background .4s var(--e)}
+    padding:18px 18px 16px 16px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    transition:border-color .4s var(--e),background .4s var(--e)}
   /* severity tint — preventive keeps the Coach gradient, nothing is wrong yet */
-  .card.s-low,.card.s-high{border-color:#e0b877;
-    background:linear-gradient(180deg,rgba(187,107,2,.06) 0%,rgba(187,107,2,.02) 100%)}
+  /* mild: the border carries the state, the surface stays clean */
+  .card.s-low,.card.s-high{border-color:#e0b877;background:rgba(255,255,255,.2)}
   .card.s-tooLow,.card.s-tooHigh{border-color:#dd9a93;
-    background:linear-gradient(180deg,rgba(192,57,43,.07) 0%,rgba(192,57,43,.02) 100%)}
+    background:linear-gradient(180deg,rgba(224,110,98,.035) 0%,rgba(224,110,98,.012) 100%)}
   .card.s-onTrack,.card.resolved{border-color:#7fc79b;
     background:linear-gradient(180deg,rgba(47,158,87,.06) 0%,rgba(47,158,87,.02) 100%)}
-  .card.s-low .cta,.card.s-high .cta{background:linear-gradient(93.8deg,rgba(187,107,2,.24),rgba(187,107,2,.12))}
-  .card.s-tooLow .cta,.card.s-tooHigh .cta{background:linear-gradient(93.8deg,rgba(192,57,43,.24),rgba(192,57,43,.12))}
-  .card.s-onTrack .cta,.card.resolved .cta{background:linear-gradient(93.8deg,rgba(47,158,87,.24),rgba(49,193,225,.16))}
+  /* the CTA stays the Coach gradient in every state: a red or amber button reads
+     as destructive or as a warning, and this action is always constructive.
+     On track is the exception: green here means achieved, not dangerous. */
+  .card.s-onTrack .cta,.card.resolved .cta{
+    background:linear-gradient(93.8deg,rgba(47,158,87,.3) 0%,rgba(120,200,150,.28) 55%,rgba(49,193,225,.22) 100%)}
   .cin{flex:1;display:flex;flex-direction:column;gap:12px;width:100%}
   .crow{display:flex;align-items:center;gap:6px;width:100%;overflow:hidden}
   .cic{width:24px;height:24px;flex:0 0 24px;border-radius:7.5px;overflow:hidden;
@@ -96,7 +99,6 @@
     cursor:pointer;transition:transform .12s var(--e),filter .3s var(--e)}
   .cta:active{transform:scale(.985)}
   .cta:focus-visible{outline:2px solid #000;outline-offset:2px}
-  .card.resolved .cta{background:linear-gradient(93.8deg,rgba(120,200,150,.4),rgba(49,193,225,.35))}
   .flash{animation:flash .7s var(--e)}
   @keyframes flash{0%{box-shadow:0 0 0 0 rgba(206,143,230,.5)}100%{box-shadow:0 0 0 16px rgba(206,143,230,0)}}
 
@@ -137,11 +139,11 @@
   .av i{width:16px;height:16px;border-radius:50%;
     background:conic-gradient(from 200deg,#8fd3e8,#c9a8e0,#fbc2d4,#8fd3e8);filter:blur(1.5px)}
   .nm{font-size:13px;font-weight:600}
-  .ctxcard{border-radius:24px;border:.5px solid var(--card-border);background:var(--card-bg);padding:14px 16px}
-  .ctxcard.s-low,.ctxcard.s-high{border-color:#e0b877;
-    background:linear-gradient(180deg,rgba(187,107,2,.06),rgba(187,107,2,.02))}
+  .ctxcard{border-radius:24px;border:.5px solid var(--card-border);background:var(--card-bg);padding:14px 16px;
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .ctxcard.s-low,.ctxcard.s-high{border-color:#e0b877;background:rgba(255,255,255,.2)}
   .ctxcard.s-tooLow,.ctxcard.s-tooHigh{border-color:#dd9a93;
-    background:linear-gradient(180deg,rgba(192,57,43,.07),rgba(192,57,43,.02))}
+    background:linear-gradient(180deg,rgba(224,110,98,.035),rgba(224,110,98,.012))}
   .ctxcard.s-onTrack{border-color:#7fc79b;
     background:linear-gradient(180deg,rgba(47,158,87,.06),rgba(47,158,87,.02))}
   .food{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.75);border-radius:16px;
