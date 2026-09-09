@@ -2,7 +2,7 @@
     --sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","SF Pro","Helvetica Neue",system-ui,Arial,sans-serif;
     --ink:#000; --ink2:#4e4e46; --ink3:#757575; --line:#e1e1e1;
     --card-border:#ce8fe6;
-    --btn:linear-gradient(93.8deg,rgba(206,143,230,.45) 2.34%,rgba(133,176,223,.45) 52.82%,rgba(49,193,225,.45) 99.54%);
+    --btn:linear-gradient(93.8deg,rgba(206,143,230,.36) 2.34%,rgba(133,176,223,.36) 52.82%,rgba(49,193,225,.36) 99.54%);
     --card-bg:linear-gradient(180deg,rgba(206,143,230,.05) 0%,rgba(251,66,152,.03) 48.56%,rgba(49,193,225,.05) 100%);
     --green:#2f9e57; --greenbg:#eaf6ee; --amber:#BB6B02; --amberbg:#fdf3e3;
     --red:#c0392b; --redbg:#fbeceb;
@@ -44,10 +44,8 @@
 
   /* ---------- coach mark + title ---------- */
   .head-block{display:flex;flex-direction:column;align-items:center;gap:20px}
-  .ai{width:50px;height:50px;border-radius:999px;background:rgba(238,243,253,.4);
-    backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .ai i{display:block;width:34px;height:34px;border-radius:50%;
-    background:conic-gradient(from 200deg,#8fd3e8,#c9a8e0,#fbc2d4,#8fd3e8);filter:blur(3px);opacity:.9}
+  .ai{width:50px;height:50px;display:flex;align-items:center;justify-content:center}
+  .ai svg{display:block;width:50px;height:50px}
   .ttlgrp{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
   .lbl{font-size:15px;font-weight:400;line-height:20px;letter-spacing:-.23px;color:var(--ink3)}
   .h1{font-size:26px;font-weight:600;line-height:32px;letter-spacing:.22px;color:#000}
@@ -76,7 +74,7 @@
      as destructive or as a warning, and this action is always constructive.
      On track is the exception: green here means achieved, not dangerous. */
   .card.s-onTrack .cta,.card.resolved .cta{
-    background:linear-gradient(93.8deg,rgba(47,158,87,.3) 0%,rgba(120,200,150,.28) 55%,rgba(49,193,225,.22) 100%)}
+    background:linear-gradient(93.8deg,rgba(47,158,87,.24) 0%,rgba(120,200,150,.22) 55%,rgba(49,193,225,.18) 100%)}
   .cin{flex:1;display:flex;flex-direction:column;gap:12px;width:100%}
   .crow{display:flex;align-items:center;gap:6px;width:100%;overflow:hidden}
   .cic{width:24px;height:24px;flex:0 0 24px;border-radius:7.5px;overflow:hidden;

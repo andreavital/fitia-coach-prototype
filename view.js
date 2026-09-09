@@ -45,9 +45,13 @@ function titleFor(){
     sub:"Everything you've logged so far is inside your targets."};
   if(openN===0){
     const allClosed=p.every(n=>stateOf(n)==='onTrack');
+    if(allClosed) return {lbl:"Today's alerts",h1:`You closed all ${p.length}`,
+      sub:'Everything I flagged today is back inside your targets.'};
+    // only over-limit cards left: name what happened instead of what is missing
+    const over=p.filter(n=>['high','tooHigh'].includes(stateOf(n))).length;
     return {lbl:"Today's alerts",
-      h1: allClosed ? `You closed all ${p.length}` : 'Nothing left to fix today',
-      sub: allClosed ? 'Everything I flagged today is back inside your targets.' : ''};
+      h1:`${over} thing${over>1?'s':''} went over today`,
+      sub:'Nothing to change now, but worth seeing what caused it.'};
   }
   return {lbl:"Today's alerts",h1:`${openN} thing${openN>1?'s':''} to check`,sub:''};
 }
@@ -100,8 +104,6 @@ function render(){
                      : 'Nothing to fix today';
     const sb = blank ? (firstEver ? "I'll answer anything about your nutrition." : '')
                      : "Everything you've logged is inside your targets.";
-    const fn = blank ? "As your day fills in, I'll tell you how it's going and what to fix."
-                     : "I'll let you know if that changes.";
     // scope label depends on whether anything has been logged yet
     const acts = blank
       ? [['eat',"Plan today's meals"],['recipe','Create a recipe'],['scan','Scan my food']]
@@ -111,10 +113,7 @@ function render(){
         ${sb?`<div class="sub">${sb}</div>`:''}</div></div>
       <div class="pills">${acts.map(([k,t])=>
         `<button class="pill" data-act="${k}">${PILL_ICON[k]}${t}</button>`).join('')}</div>
-      <div class="footnote">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.6v3.6l2.2 1.3"/></svg>
-        <p>${fn}</p>
-      </div>`;
+`;
     body.querySelectorAll('.pill').forEach(b=>{
       const k=b.dataset.act;
       b.onclick=()=>toast(PILL_DESC[ k==='eat' && !blank ? 'rest' : k ]);
@@ -139,10 +138,7 @@ function render(){
     content.appendChild(dots);
     wireRail(rail,dots,p.length);
   }
-  sugg.innerHTML='';
-  // insight mode: only the day-review chips, per the Figma frame
-  ['How is my day going?','Create my dinner','How was my lunch?'].forEach(t=>{
-    const b=document.createElement('button');b.textContent=t;sugg.appendChild(b);});
+  sugg.innerHTML='';   // insight mode shows no suggestion chips
 }
 
 function wireRail(rail,dots,count){

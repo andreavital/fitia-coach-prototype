@@ -10,7 +10,7 @@
     --sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","SF Pro","Helvetica Neue",system-ui,Arial,sans-serif;
     --ink:#000; --ink2:#4e4e46; --ink3:#757575; --line:#e1e1e1;
     --card-border:#ce8fe6;
-    --btn:linear-gradient(93.8deg,rgba(206,143,230,.45) 2.34%,rgba(133,176,223,.45) 52.82%,rgba(49,193,225,.45) 99.54%);
+    --btn:linear-gradient(93.8deg,rgba(206,143,230,.36) 2.34%,rgba(133,176,223,.36) 52.82%,rgba(49,193,225,.36) 99.54%);
     --card-bg:linear-gradient(180deg,rgba(206,143,230,.05) 0%,rgba(251,66,152,.03) 48.56%,rgba(49,193,225,.05) 100%);
     --green:#2f9e57; --greenbg:#eaf6ee; --amber:#BB6B02; --amberbg:#fdf3e3;
     --red:#c0392b; --redbg:#fbeceb;
@@ -82,7 +82,7 @@
      as destructive or as a warning, and this action is always constructive.
      On track is the exception: green here means achieved, not dangerous. */
   .card.s-onTrack .cta,.card.resolved .cta{
-    background:linear-gradient(93.8deg,rgba(47,158,87,.3) 0%,rgba(120,200,150,.28) 55%,rgba(49,193,225,.22) 100%)}
+    background:linear-gradient(93.8deg,rgba(47,158,87,.24) 0%,rgba(120,200,150,.22) 55%,rgba(49,193,225,.18) 100%)}
   .cin{flex:1;display:flex;flex-direction:column;gap:12px;width:100%}
   .crow{display:flex;align-items:center;gap:6px;width:100%;overflow:hidden}
   .cic{width:24px;height:24px;flex:0 0 24px;border-radius:7.5px;overflow:hidden;
@@ -494,9 +494,13 @@ function titleFor(){
     sub:"Everything you've logged so far is inside your targets."};
   if(openN===0){
     const allClosed=p.every(n=>stateOf(n)==='onTrack');
+    if(allClosed) return {lbl:"Today's alerts",h1:`You closed all ${p.length}`,
+      sub:'Everything I flagged today is back inside your targets.'};
+    // only over-limit cards left: name what happened instead of what is missing
+    const over=p.filter(n=>['high','tooHigh'].includes(stateOf(n))).length;
     return {lbl:"Today's alerts",
-      h1: allClosed ? `You closed all ${p.length}` : 'Nothing left to fix today',
-      sub: allClosed ? 'Everything I flagged today is back inside your targets.' : ''};
+      h1:`${over} thing${over>1?'s':''} went over today`,
+      sub:'Nothing to change now, but worth seeing what caused it.'};
   }
   return {lbl:"Today's alerts",h1:`${openN} thing${openN>1?'s':''} to check`,sub:''};
 }
@@ -549,8 +553,6 @@ function render(){
                      : 'Nothing to fix today';
     const sb = blank ? (firstEver ? "I'll answer anything about your nutrition." : '')
                      : "Everything you've logged is inside your targets.";
-    const fn = blank ? "As your day fills in, I'll tell you how it's going and what to fix."
-                     : "I'll let you know if that changes.";
     // scope label depends on whether anything has been logged yet
     const acts = blank
       ? [['eat',"Plan today's meals"],['recipe','Create a recipe'],['scan','Scan my food']]
@@ -560,10 +562,7 @@ function render(){
         ${sb?`<div class="sub">${sb}</div>`:''}</div></div>
       <div class="pills">${acts.map(([k,t])=>
         `<button class="pill" data-act="${k}">${PILL_ICON[k]}${t}</button>`).join('')}</div>
-      <div class="footnote">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6.2"/><path d="M8 4.6v3.6l2.2 1.3"/></svg>
-        <p>${fn}</p>
-      </div>`;
+`;
     body.querySelectorAll('.pill').forEach(b=>{
       const k=b.dataset.act;
       b.onclick=()=>toast(PILL_DESC[ k==='eat' && !blank ? 'rest' : k ]);
@@ -588,10 +587,7 @@ function render(){
     content.appendChild(dots);
     wireRail(rail,dots,p.length);
   }
-  sugg.innerHTML='';
-  // insight mode: only the day-review chips, per the Figma frame
-  ['How is my day going?','Create my dinner','How was my lunch?'].forEach(t=>{
-    const b=document.createElement('button');b.textContent=t;sugg.appendChild(b);});
+  sugg.innerHTML='';   // insight mode shows no suggestion chips
 }
 
 function wireRail(rail,dots,count){
