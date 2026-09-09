@@ -31,29 +31,26 @@ const pinned=()=>N.filter(n=>dayState.triggeredToday[n.key])
   .sort((a,b)=>{const o={tooHigh:0,tooLow:0,high:1,low:1,preventive:2,onTrack:3};
     return (o[stateOf(a)]-o[stateOf(b)])||(a.rank-b.rank);});
 
-/* The headline counts only what the user can still act on. An over-limit alert
-   is information, not a task: you cannot un-eat it, so it never sits there as
-   something pending. Nothing here counts how much the user reviewed. */
-const actionable=n=>['tooLow','low','preventive'].includes(stateOf(n));
+/* Everything that is not back on target counts as something to check, over-limit
+   alerts included. They only change the headline when they are all that is left,
+   because at that point there is nothing to act on. */
+const isOpen=n=>stateOf(n)!=='onTrack';
+const isOver=n=>['high','tooHigh'].includes(stateOf(n));
 
 /* opening Coach counts as seeing whatever is currently open */
 function markSeen(list){ list.forEach(n=>{ if(stateOf(n)!=='onTrack') dayState.seenToday[n.key]=true; }); }
 
 function titleFor(){
-  const p=pinned(), openN=p.filter(actionable).length;
+  const p=pinned(), open=p.filter(isOpen), n=open.length;
   if(!p.length) return {lbl:'Today',h1:'Nothing to fix today',
     sub:"Everything you've logged so far is inside your targets."};
-  if(openN===0){
-    const allClosed=p.every(n=>stateOf(n)==='onTrack');
-    if(allClosed) return {lbl:"Today's alerts",h1:`You closed all ${p.length}`,
-      sub:'Everything I flagged today is back inside your targets.'};
-    // only over-limit cards left: name what happened instead of what is missing
-    const over=p.filter(n=>['high','tooHigh'].includes(stateOf(n))).length;
-    return {lbl:"Today's alerts",
-      h1:`${over} thing${over>1?'s':''} went over today`,
-      sub:'Nothing to change now, but worth seeing what caused it.'};
-  }
-  return {lbl:"Today's alerts",h1:`${openN} thing${openN>1?'s':''} to check`,sub:''};
+  if(n===0) return {lbl:"Today's alerts",h1:`You closed all ${p.length}`,
+    sub:'Everything I flagged today is back inside your targets.'};
+  // only over-limit left: nothing to act on, so name what happened instead
+  if(open.every(isOver)) return {lbl:"Today's alerts",
+    h1:`${n} thing${n>1?'s':''} went over today`,
+    sub:'Nothing to change now, but worth seeing what caused it.'};
+  return {lbl:"Today's alerts",h1:`${n} thing${n>1?'s':''} to check`,sub:''};
 }
 
 function card(n){
